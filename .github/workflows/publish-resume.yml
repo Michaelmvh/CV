@@ -1,0 +1,38 @@
+name: Publish resume
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - resume.tex
+      - .github/workflows/publish-resume.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-resume
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build PDF
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: resume.tex
+
+      - name: Publish latest release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: resume-${{ github.run_number }}
+          name: Resume ${{ github.run_number }}
+          files: resume.pdf
+          make_latest: true
+          body: Automatically generated from `resume.tex`.
