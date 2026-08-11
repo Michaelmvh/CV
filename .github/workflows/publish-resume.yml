@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - resume.tex
+      - resume.pdf
       - .github/workflows/publish-resume.yml
   workflow_dispatch:
 
@@ -23,11 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Build PDF
-        uses: xu-cheng/latex-action@v4
-        with:
-          root_file: resume.tex
-
       - name: Publish latest release
         uses: softprops/action-gh-release@v3
         with:
@@ -35,4 +30,4 @@ jobs:
           name: Resume ${{ github.run_number }}
           files: resume.pdf
           make_latest: true
-          body: Automatically generated from `resume.tex`.
+          body: Latest published curriculum vitae.
