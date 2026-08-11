@@ -1,4 +1,4 @@
-name: Publish resume
+name: Publish CV
 
 on:
   push:
@@ -6,14 +6,14 @@ on:
       - main
     paths:
       - CV.pdf
-      - .github/workflows/publish-resume.yml
+      - .github/workflows/publish-cv.yml
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: publish-resume
+  group: publish-cv
   cancel-in-progress: false
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
       - name: Publish latest release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: resume-${{ github.run_number }}
-          name: Resume ${{ github.run_number }}
+          tag_name: cv-${{ github.run_number }}
+          name: CV ${{ github.run_number }}
           files: CV.pdf
           make_latest: true
           body: Latest published curriculum vitae.
