@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - resume.pdf
+      - CV.pdf
       - .github/workflows/publish-resume.yml
   workflow_dispatch:
 
@@ -28,6 +28,6 @@ jobs:
         with:
           tag_name: resume-${{ github.run_number }}
           name: Resume ${{ github.run_number }}
-          files: resume.pdf
+          files: CV.pdf
           make_latest: true
           body: Latest published curriculum vitae.
