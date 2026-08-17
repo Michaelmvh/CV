@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - CV.pdf
-      - .github/workflows/publish-cv.yml
   workflow_dispatch:
 
 permissions:
@@ -19,6 +18,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      PORTFOLIO_DISPATCH_TOKEN: ${{ secrets.PORTFOLIO_DISPATCH_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -31,3 +32,17 @@ jobs:
           files: CV.pdf
           make_latest: true
           body: Latest published curriculum vitae.
+
+      - name: Trigger portfolio deployment
+        if: ${{ env.PORTFOLIO_DISPATCH_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ env.PORTFOLIO_DISPATCH_TOKEN }}
+        run: >-
+          gh api
+          --method POST
+          repos/Michaelmvh/michaelmvh.github.io/dispatches
+          --field event_type=cv-published
+
+      - name: Report unconfigured portfolio deployment
+        if: ${{ env.PORTFOLIO_DISPATCH_TOKEN == '' }}
+        run: echo "::notice::Add the PORTFOLIO_DISPATCH_TOKEN secret to deploy CV updates to michaelmvh.com."
