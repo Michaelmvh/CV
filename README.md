@@ -22,3 +22,7 @@ The dispatch requires an Actions secret named `PORTFOLIO_DISPATCH_TOKEN`, contai
 personal access token restricted to `Michaelmvh/michaelmvh.github.io` with **Contents: Read and write**
 permission. If the secret is absent, CV publishing still succeeds and reports that automatic portfolio
 deployment is not configured.
+
+To test the connection without creating a duplicate CV release, manually run the **Publish CV** workflow
+from the Actions tab and enable **Test the portfolio deployment without creating a CV release**. The workflow
+will send the dispatch directly to the portfolio.

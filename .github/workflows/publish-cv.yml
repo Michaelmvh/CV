@@ -7,6 +7,12 @@ on:
     paths:
       - CV.pdf
   workflow_dispatch:
+    inputs:
+      dispatch_only:
+        description: Test the portfolio deployment without creating a CV release
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -25,6 +31,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Publish latest release
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.dispatch_only }}
         uses: softprops/action-gh-release@v3
         with:
           tag_name: cv-${{ github.run_number }}
